@@ -1,0 +1,165 @@
+/* latin-ext */
+@font-face {
+    font-family: 'Space Mono';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/spacemono/v6/i7dNIFZifjKcF5UAWdDRYERMSXK_IwU.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+    font-family: 'Space Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/spacemono/v6/i7dPIFZifjKcF5UAWdDRYE98RWq7.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+    --fg-col: #FFF;
+    --bg-col: #131316;
+    --pri-col: #4D9093;
+    --sec-col: #DF2935;
+    --text-col: var(--fg-col);
+    --link-col: var(--fg-col);
+    --border: solid 0.16em var(--fg-col)
+}
+
+* {
+    font-family: 'Space Mono', monospace;
+    font-variant-ligatures: none
+}
+
+h1 {
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
+}
+
+h2 {
+    font-weight: normal;
+    font-size: 2em;
+    text-align: center;
+    margin: 0;
+}
+
+h3 {
+    font-weight: normal;
+    font-size: 1.5em;
+    text-align: center;
+    margin: 0;
+}
+
+h4,
+h5,
+h6 {
+    font-weight: normal;
+    font-size: 1em;
+    text-align: center;
+    margin: 0
+}
+
+a {
+    text-decoration: none
+}
+
+a:link {
+    color: #65B556
+}
+
+a:visited {
+    color: #37782C
+}
+
+a:hover {
+    color: #79B5B9
+}
+
+a:active {
+    color: #1D532F
+}
+
+.anchor:link {
+    color: var(--text-col)
+}
+
+.anchor:visited {
+    color: var(--text-col)
+}
+
+.anchor:hover {
+    color: var(--text-col)
+}
+
+.anchor:active {
+    color: var(--text-col)
+}
+
+body {
+    background-color: var(--bg-col);
+    color: var(--fg-col)
+}
+
+hr {
+    border: none;
+    border-top: var(--border);
+    margin: 0.85em auto;
+    width: calc(100% - 1em)
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+ul>li::before {
+    content: "- ";
+}
+
+#container {
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto
+}
+
+.table {
+    max-width: 1600px;
+    margin-right: auto;
+    margin-left: auto;
+    border: solid 0.16em var(--fg-col)
+}
+
+.block {
+    border-spacing: 0;
+    border-bottom: var(--border);
+    width: 100%
+}
+
+.block .header {
+    border: var(--border);
+    border-bottom: none;
+    padding: 0.5em;
+    margin: 0.5em;
+    text-align: center
+}
+
+.block .body {
+    border: var(--border);
+    border-bottom: none;
+    padding: 0.5em;
+    margin: 0.5em
+}
+
+.math-svg {
+    filter: invert(100%);
+    width: 400px;
+
+}
+
+.math-container {
+    text-align: center;
+    pointer-events: none;
+}

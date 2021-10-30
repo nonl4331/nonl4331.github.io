@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" type="image/png" href="/res/favicon.png">
+    <link rel="stylesheet" type="text/css" href="/res/style.css">
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="googlebot" content="noindex">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating point, a story of catastrophic cancellation.</title>
+</head>
+
+<body>
+    <div id="container">
+        <h1>Floating point, a story of catastrophic cancellation.</h1>
+        <p>
+            <h2>Why floating point?</h2>
+            To understand why floating point is used, we first need to understand how floating point works. For the sake of specificity we will be working with the single precision floating point format from the <a href="https://standards.ieee.org/standard/60559-2020.html">IEEE 754 technical standard</a>, but the concepts will apply for other floating point represenations.
+        </p>
+        <h3>Fixed point arithmetic.</h3>
+        <p>
+            Before we get to explaining how floating point works we first should briefly go over fixed point arithmetic. I'll leave the specifics for another time but in essence fixed point arithmetic works by storing a number as its integer represenation (two's complement for negative numbers) with an implied scaling factor. For example lets say we have a scaling factor 1/10 and the 8 bit binary number:
+            <div class="math-container">
+                <img src="/res/01111110.svg" alt="0111110" class="math-svg" style="width: 200px;">
+            </div>
+            Which represent the number 126 and as a fixed point with the scaling factor of 1/10 represents the number 12.6, keep in mind that the scaling factor of 1/10 is arbitrary and could be anything but is constant. Infact this is why "floating point" is called as such and not "fixed point". Floating point has a scaling factor which is variable to change and is often represented by 2<sup>e</sup>, where e is some exponent derived from a bitfield in the number itself.
+        </p>
+        <h3>Floating point arithmetic.</h3>
+        <p>
+            Ignoring the special cases where the biased exponent is 0 or 2<sup>w</sup> - 1 which we will get to later. The value of a floating point number is:
+            <div class="math-container">
+                <img src="/res/fpval.svg" alt="The value of a IEEE 754 floating point number." class="math-svg">
+            </div>
+            There are three parts of the single precision floating point format. Lets break this down bit by bit starting from the MSB (left most bit).
+            <div class="math-container">
+                <img src="/res/spfp.svg" alt="The three parts of the single precision floating point format." class="math-svg">
+            </div>
+        </p>
+        <p>
+            The first bit we come across is the sign bit which like any other bit can have the value of either 0 or 1: If the sign bit is 0 it indicates that the floating point number is positive and if the sign bit is 1 it indicates the number is negative.
+        </p>
+        <p>
+            The next 8 bits are the biased exponent which gives us a number between 0 and (2<sup>8</sup> - 1). As mentioned before for now we will ignore the 0 and (2<sup>8</sup> - 1) as they are handled differently.
+            Our exponent represents our variable scaling factor mentioned above. Currently our biased exponent (E) can represent values between 0 and 2<sup>w</sup> - 1 and since as we will find out later our significand, which we multiply with 2<sup>exponent</sup> to get the magnitude of our value can only be in the range [1, 2). Having E as our exponent is a problem since the smallest value of our scaling factor (2<sup>E</sup>) would be would be 2<sup>0</sup> = 1 which means we would not be able to represent numbers of a magnitude under 1! To solve this problem we turn our biased exponent into what is called the unbaised exponent and use that as our exponent this is done by subtracting our bias. This new unbiased exponent means we have our scaling factor is the range of 2<sup>-b</sup> to 2<sup>e</sup>. Which can represent many small values between 0 and 1.
+        </p>
+        <p>
+            Keep in mind that the values 2<sup>-b</sup> and 2<sup>E-b</sup> are special values that are handled differently since they are linked to the biased exponent values mentioned before.<br><br>
+            The remaining 23 bits are the <b>trailing</b> significand. Why is it called the trailing significand? There are a couple of ways to look at it but the most straghtforward is just to simply recognize that those 23 bits define the decimal parts of significand where the significand is of the form:
+            <div class="math-container">
+                <img src="/res/trailingsignificand.svg" alt="1 . b_{t-1}..b_{0}" class="math-svg" style="width: 200px;">
+            </div>
+            The keen eyed of you might of noticed that the there are similarites to the formula for m and the description of fixed point arithmetic. In fact if we can think of the trailing significand as a 24 bit number (23 bit with a extra one bit), which we can express as a fixed point number:
+            <div class="math-container">
+                <img src="/res/24bitsig.svg" alt="1_2b_{t-1}..b_0 * 2^{-p}" class="math-svg">
+            </div>
+            The 2<sup>-p</sup> is just to normalize the value so that it it within the range of [1, 2).
+        </p>
+        <h2 style="font-size: 2em; text-align: center;">Variable Reference Sheet</h2>
+        <table class="block">
+            <tr>
+                <th class="body">Variable</th>
+                <th class="body">Value</th>
+                <th class="body">Explaination</th>
+            </tr>
+            <tr>
+                <td class="body">b<sub>i</sub></td>
+                <td class="body">0 or 1</td>
+                <td class="body">bit i, where LSB (right most bit) is 0</td>
+            </tr>
+            <tr>
+                <th class="body" colspan=3>32-Bit (single precision) specific values</th>
+            </tr>
+            <tr>
+                <td class="body">p</td>
+                <td class="body">24</td>
+                <td class="body">bit precision of the significand.</td>
+            </tr>
+            <tr>
+                <td class="body">w</td>
+                <td class="body">8</td>
+                <td class="body">exponent field width in bits</td>
+            </tr>
+            <tr>
+                <th class="body" colspan=3>Generic Floating point specific values (with 32-bit value)</th>
+            </tr>
+            <tr>
+                <td class="body">t</td>
+                <td class="body">p - 1 <br> 23</td>
+                <td class="body">number of trailing significand bits.</td>
+            </tr>
+            <tr>
+                <td class="body">E</td>
+                <td class="body">b<sub>t+w-1</sub>..b<sub>t</sub> <br>
+                    b<sub>30</sub>..b<sub>23</sub>
+                </td>
+                <td class="body">biased exponent</td>
+            </tr>
+            <tr>
+                <td class="body">b</td>
+                <td class="body">2<sup>w-1</sup> - 1 <br> 127</td>
+                <td class="body">bias</td>
+            </tr>
+            <tr>
+                <td class="body">e</td>
+                <td class="body">E - b</td>
+                <td class="body">exponent (unbaised)</td>
+            </tr>
+            <tr>
+                <td class="body">s</td>
+                <td class="body">b<sub>t+w</sub> <br> b<sub>31</sub></td>
+                <td class="body">sign</td>
+            </tr>
+            <tr>
+                <td class="body">m</td>
+                <td class="body">1 + (b<sub>t-1</sub>..b<sub>0</sub>) * 2<sup>-t</sup> <br>
+                    1 + (b<sub>22</sub>..b<sub>0</sub>) * 2<sup>-23</sup>
+                </td>
+                <td class="body">significand</td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
