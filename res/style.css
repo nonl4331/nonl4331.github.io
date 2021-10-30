@@ -32,6 +32,7 @@
     font-variant-ligatures: none
 }
 
+/* small centered heading */
 h1 {
     font-size: 1em;
     font-weight: bold;
@@ -39,26 +40,41 @@ h1 {
     margin: 0;
 }
 
+/* small centered heading no bold*/
 h2 {
+    font-size: 1em;
+    font-weight: normal;
+    text-align: center;
+    margin: 0;
+}
+
+/* large centered heading no bold*/
+h3 {
     font-weight: normal;
     font-size: 2em;
     text-align: center;
     margin: 0;
 }
 
-h3 {
+/* medium centered heading no bold */
+h4 {
     font-weight: normal;
     font-size: 1.5em;
     text-align: center;
     margin: 0;
 }
 
-h4,
-h5,
+/* small left aligned heading bold*/
+h5 {
+    font-weight: bold;
+    font-size: 1em;
+    margin: 0
+}
+
+/* small left aligned heading no bold*/
 h6 {
     font-weight: normal;
     font-size: 1em;
-    text-align: center;
     margin: 0
 }
 

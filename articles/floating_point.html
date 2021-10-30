@@ -15,10 +15,10 @@
     <div id="container">
         <h1>Floating point, a story of catastrophic cancellation.</h1>
         <p>
-            <h2>Why floating point?</h2>
+            <h3>Why floating point?</h3>
             To understand why floating point is used, we first need to understand how floating point works. For the sake of specificity we will be working with the single precision floating point format from the <a href="https://standards.ieee.org/standard/60559-2020.html">IEEE 754 technical standard</a>, but the concepts will apply for other floating point represenations.
         </p>
-        <h3>Fixed point arithmetic.</h3>
+        <h4>Fixed point arithmetic.</h4>
         <p>
             Before we get to explaining how floating point works we first should briefly go over fixed point arithmetic. I'll leave the specifics for another time but in essence fixed point arithmetic works by storing a number as its integer represenation (two's complement for negative numbers) with an implied scaling factor. For example lets say we have a scaling factor 1/10 and the 8 bit binary number:
             <div class="math-container">
@@ -26,7 +26,7 @@
             </div>
             Which represent the number 126 and as a fixed point with the scaling factor of 1/10 represents the number 12.6, keep in mind that the scaling factor of 1/10 is arbitrary and could be anything but is constant. Infact this is why "floating point" is called as such and not "fixed point". Floating point has a scaling factor which is variable to change and is often represented by 2<sup>e</sup>, where e is some exponent derived from a bitfield in the number itself.
         </p>
-        <h3>Floating point arithmetic.</h3>
+        <h4>Floating point arithmetic.</h4>
         <p>
             Ignoring the special cases where the biased exponent is 0 or 2<sup>w</sup> - 1 which we will get to later. The value of a floating point number is:
             <div class="math-container">
@@ -56,7 +56,7 @@
             </div>
             The 2<sup>-p</sup> is just to normalize the value so that it it within the range of [1, 2).
         </p>
-        <h2 style="font-size: 2em; text-align: center;">Variable Reference Sheet</h2>
+        <h3 style="font-size: 2em; text-align: center;">Variable Reference Sheet</h3>
         <table class="block">
             <tr>
                 <th class="body">Variable</th>
