@@ -1,4 +1,4 @@
-Sitemap: http://nonl.knao.net/sitemap.xml
+Sitemap: /sitemap.xml
 User-Agent: *
 Allow: /
-Host: http://nonl.knao.net
+Host: 

@@ -1,5 +1,5 @@
 # do NOT include a trailing slash on the base URL for web urls
-base_url = "http://nonl.knao.net"
+base_url = "/"
 title = "Home"
 description = "Nicholas' Website"
 default_language = "en"
