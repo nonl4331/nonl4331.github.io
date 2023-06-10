@@ -46,7 +46,7 @@
         {%- elif config.extra.textlogo -%}
         <h1><a href="{{ config.base_url | safe }}/{%- if config.extra.uglyurls %}index.html{%- endif %}">{{ config.extra.textlogo | safe }}</a></h1>
         {%- elif config.title -%}
-        <h1><a href="{{ config.base_url | safe }}/{%- if config.extra.uglyurls %}index.html{%- endif %}">{{ config.title | safe }}</a></h1>
+        <h1><a href="/">{{ config.title | safe }}</a></h1>
         {%- endif -%}
       </div>
       <div>
