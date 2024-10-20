@@ -6,14 +6,10 @@ draft = false
 [taxonomies]
 categories = ["programming"]
 tags = ["graphics"]
-
-[extra]
-math = true
-math_auto_render = true
 +++
 
-The Mandelbrot set is defined as the set of complex numbers where if you take the function $f_c(z) = z^2 + c$ and recursively evaulate it starting with $z = 0$ and a given $c$ where it does not diverge.
-We can graph this by representing each pixel with position or $c$ value on the complex plane.
+The Mandelbrot set is defined as the set of complex numbers where if you take the function \\(f_c(z) = z^2 + c\\) and recursively evaulate it starting with \\(z = 0\\) and a given \\(c\\) where it does not diverge.
+We can graph this by representing each pixel with position or \\(c\\) value on the complex plane.
 <!-- more -->
 
 I will be using Rust with minifb for a framebuffer and rayon for multithreading.
@@ -46,10 +42,10 @@ fn main() -> Result<(), Box<dyn Error>> {
 }
 ```
 
-Let's write a function to evaluate $f_c(z) = z^2 + c$.
-For the sake of clarity $z_a = x$ and $z_b = y$ where $z_a$ is the real component and $z_b$ the imaginary component of the complex number $z$. Similarly $c_a = x_0$ and $c_b = y_0$. I've chosen this notation to be consistent with the wikipedia page on the mandelbrot set. 
+Let's write a function to evaluate \\(f_c(z) = z^2 + c\\).
+For the sake of clarity \\(z_a = x\\) and \\(z_b = y\\) where \\(z_a\\) is the real component and \\(z_b\\) the imaginary component of the complex number \\(z\\). Similarly \\(c_a = x_0\\) and \\(c_b = y_0\\). I've chosen this notation to be consistent with the wikipedia page on the mandelbrot set. 
 
-Rust doesn't have an inbuilt complex number primitive so we could either create our own struct or operate directly on the real and imaginary components. I've opted to operate directly on the components since we aren't doing much arithmetic. The following is $f_c(z)$ expressed in terms of the components of $z$ and $c$.
+Rust doesn't have an inbuilt complex number primitive so we could either create our own struct or operate directly on the real and imaginary components. I've opted to operate directly on the components since we aren't doing much arithmetic. The following is \\(f_c(z)\\) expressed in terms of the components of \\(z\\) and \\(c\\).
 
 $$
 f_c(z) = z^2 + c
@@ -70,8 +66,8 @@ fn iterate(x: f64, y: f64, x0: f64, y0: f64) -> (f64, f64) {
 }
 ```
 
-Now let's create a function to tell if for given $c$ value our recursive sequence diverges or not. One of the basic properties of our sequence
-is that it will diverge if at any point $|f_c(z)| > 2$ (or alternatively $|f_c(z)|^2 > 4$). This is because the entire mandelbrot set lies within a circle with radius 2. Using this property we can check for a given $c$ value if the sequence will diverge within a given amount of iterations.
+Now let's create a function to tell if for given \\(c\\) value our recursive sequence diverges or not. One of the basic properties of our sequence
+is that it will diverge if at any point \\(|f_c(z)| > 2\\) (or alternatively \\(|f_c(z)|^2 > 4\\)). This is because the entire mandelbrot set lies within a circle with radius 2. Using this property we can check for a given \\(c\\) value if the sequence will diverge within a given amount of iterations.
 
 
 ```rust
@@ -97,9 +93,9 @@ fn diverges(x0: f64, y0: f64) -> bool {
 }
 ```
 We can now use this to graph the mandelbrot set! We'll assign the colour white to anything that fails to diverge and black to everything else.
-The entire mandelbrot set lies between $-2 - 1.2i$ and $0.5 + 1.2i$ so let's map the pixels of our image to between those values. 
+The entire mandelbrot set lies between \\(-2 - 1.2i\\) and \\(0.5 + 1.2i\\) so let's map the pixels of our image to between those values. 
 
-For example to map our pixels $y$ coordinates to our $i$ range we can use the following formula: $y_{min} + y_{range}\frac{p_{y}}{p_{ymax}}$, we do the same for mapping our pixels $x$ coordinates to our real number range.
+For example to map our pixels \\(y\\) coordinates to our \\(i\\) range we can use the following formula: \\(y_{min} + y_{range}\frac{p_{y}}{p_{ymax}}\\), we do the same for mapping our pixels \\(x\\) coordinates to our real number range.
 
 ```rust
 use minifb::{Key, Window, WindowOptions};
@@ -138,7 +134,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 ```
 
 This takes around 3 seconds with my 5950x and produces this image:
-{{ img(src="01.webp" alt="First mandelbrot image" w=2560 h=1440) }}
+![first mandlebrot image](01.webp)
 
 The resulting image is rather underwelming to say the least, a lot of the interesting detail isn't there! 
 This is due to our binary diverges/doesn't diverge approach. Before we improve on that aspect that let's speed up the render.
@@ -206,7 +202,7 @@ fn diverges(x0: f64, y0: f64) -> bool {
 }
 ``` 
 
-This gets us to around ~118ms. We can also store the values of $x^2$ and $y^2$ which removes some duplicate calculations.
+This gets us to around ~118ms. We can also store the values of \\(x^2\\) and \\(y^2\\) which removes some duplicate calculations.
 ```rust
 fn diverges(x0: f64, y0: f64) -> bool {
     let (mut x, mut y) = (x0, y0);
@@ -419,7 +415,7 @@ We also need to modify our buffer creation:
 ```
 
 We now get this image:
-{{ img(src="02.webp" alt="First mandelbrot image" w=2560 h=1440) }}
+![final mandelbrot image](02.webp)
 
 ### Conclusion
 For me this is where I stop. If you want to explore more around this topic such as more advanced algorithms or different colourings have a look at [wikipedia](https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set) where I got most of this information from. 

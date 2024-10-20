@@ -1,8 +1,6 @@
 +++
-title = "About"
+title = "about"
 path = "about"
-template = "pages.html"
-draft = false
+template = "about.html"
 +++
-
-Both the theme and this site are licensed under the [MIT license](https://opensource.org/licenses/MIT).
+github: [https://github.com/nonl4331](https://github.com/nonl4331)

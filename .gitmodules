@@ -1,0 +1,3 @@
+[submodule "website/themes/even"]
+	path = website/themes/even
+	url = https://github.com/getzola/even/
