@@ -18,7 +18,7 @@ I will be using Rust with minifb for a framebuffer and rayon for multithreading.
 minifb = "0.24.0"
 rayon = "1.7.0"
 ```
-First of all lets create a buffer for our image and set up minifb.
+First of all let's create a buffer for our image and set up minifb.
 
 ```rust
 use minifb::{Key, Window, WindowOptions};
@@ -166,7 +166,7 @@ The render now takes around 130ms on my 5950x (16 cores, 32 threads) which is ab
 
 ### Optimising
 
-We can also optimise our diverges function. We'll need to inline our iterate function so lets do that.
+We can also optimise our diverges function. We'll need to inline our iterate function so let's do that.
 ```rust
 fn diverges(x0: f64, y0: f64) -> bool {
     let (mut x, mut y) = (0.0, 0.0);
