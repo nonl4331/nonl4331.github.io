@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>/</loc>
+        <loc>nonl.knao.net/</loc>
     </url>
     <url>
-        <loc>/about/</loc>
+        <loc>nonl.knao.net/about/</loc>
     </url>
     <url>
-        <loc>/categories/</loc>
+        <loc>nonl.knao.net/categories/</loc>
     </url>
     <url>
-        <loc>/categories/programming/</loc>
+        <loc>nonl.knao.net/categories/programming/</loc>
     </url>
     <url>
-        <loc>/mandelbrotset/</loc>
+        <loc>nonl.knao.net/mandelbrotset/</loc>
         <lastmod>2023-06-10</lastmod>
     </url>
     <url>
-        <loc>/page/1/</loc>
+        <loc>nonl.knao.net/page/1/</loc>
     </url>
     <url>
-        <loc>/tags/</loc>
+        <loc>nonl.knao.net/tags/</loc>
     </url>
     <url>
-        <loc>/tags/graphics/</loc>
+        <loc>nonl.knao.net/tags/graphics/</loc>
     </url>
 </urlset>

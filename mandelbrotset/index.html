@@ -30,7 +30,7 @@
       
 
       
-          <link rel="stylesheet" href="/site.css">
+          <link rel="stylesheet" href="nonl.knao.net/site.css">
           
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
           
@@ -45,7 +45,7 @@
 
             <div id="mobile-navbar" class="mobile-navbar">
               <div class="mobile-header-logo">
-                <a href="&#x2F;" class="logo">nonl</a>
+                <a href="nonl.knao.net" class="logo">nonl</a>
               </div>
               <div class="mobile-navbar-icon icon-out">
                 <span></span>
@@ -58,25 +58,25 @@
               <ul class="mobile-menu-list">
                 
                     <li class="mobile-menu-item">
-                        <a href="&#x2F;">
+                        <a href="nonl.knao.net">
                             Home
                         </a>
                     </li>
                 
                     <li class="mobile-menu-item">
-                        <a href="&#x2F;&#x2F;categories">
+                        <a href="nonl.knao.net&#x2F;categories">
                             Categories
                         </a>
                     </li>
                 
                     <li class="mobile-menu-item">
-                        <a href="&#x2F;&#x2F;tags">
+                        <a href="nonl.knao.net&#x2F;tags">
                             Tags
                         </a>
                     </li>
                 
                     <li class="mobile-menu-item">
-                        <a href="&#x2F;&#x2F;about">
+                        <a href="nonl.knao.net&#x2F;about">
                             About
                         </a>
                     </li>
@@ -85,30 +85,30 @@
             </nav>
 
             <header id="header">
-                <div class="logo"><a href="&#x2F;">nonl</a></div>
+                <div class="logo"><a href="nonl.knao.net">nonl</a></div>
                 <nav class="menu">
                     <ul>
                         
                             <li>
-                                <a href="&#x2F;">
+                                <a href="nonl.knao.net">
                                     Home
                                 </a>
                             </li>
                         
                             <li>
-                                <a href="&#x2F;&#x2F;categories">
+                                <a href="nonl.knao.net&#x2F;categories">
                                     Categories
                                 </a>
                             </li>
                         
                             <li>
-                                <a href="&#x2F;&#x2F;tags">
+                                <a href="nonl.knao.net&#x2F;tags">
                                     Tags
                                 </a>
                             </li>
                         
                             <li>
-                                <a href="&#x2F;&#x2F;about">
+                                <a href="nonl.knao.net&#x2F;about">
                                     About
                                 </a>
                             </li>
@@ -129,25 +129,25 @@
             <ul>
                 
                 <li>
-                    <a href="/mandelbrotset/#multithreading" class="toc-link">Multithreading</a>
+                    <a href="nonl.knao.net/mandelbrotset/#multithreading" class="toc-link">Multithreading</a>
                     
                 </li>
                 
                 <li>
-                    <a href="/mandelbrotset/#optimising" class="toc-link">Optimising</a>
+                    <a href="nonl.knao.net/mandelbrotset/#optimising" class="toc-link">Optimising</a>
                     
                     <ul>
                         
                         <li>
-                            <a href="/mandelbrotset/#early-exit" class="toc-link">Early Exit</a>
+                            <a href="nonl.knao.net/mandelbrotset/#early-exit" class="toc-link">Early Exit</a>
                         </li>
                         
                         <li>
-                            <a href="/mandelbrotset/#symmetry" class="toc-link">Symmetry</a>
+                            <a href="nonl.knao.net/mandelbrotset/#symmetry" class="toc-link">Symmetry</a>
                         </li>
                         
                         <li>
-                            <a href="/mandelbrotset/#cycles" class="toc-link">Cycles</a>
+                            <a href="nonl.knao.net/mandelbrotset/#cycles" class="toc-link">Cycles</a>
                         </li>
                         
                     </ul>
@@ -155,12 +155,12 @@
                 </li>
                 
                 <li>
-                    <a href="/mandelbrotset/#better-graphing" class="toc-link">Better graphing</a>
+                    <a href="nonl.knao.net/mandelbrotset/#better-graphing" class="toc-link">Better graphing</a>
                     
                 </li>
                 
                 <li>
-                    <a href="/mandelbrotset/#conclusion" class="toc-link">Conclusion</a>
+                    <a href="nonl.knao.net/mandelbrotset/#conclusion" class="toc-link">Conclusion</a>
                     
                 </li>
                 
@@ -174,7 +174,7 @@
     
     <header class="post__header">
         <h1 class="post__title">
-            <a href="&#x2F;mandelbrotset&#x2F;">Graphing the Mandelbrot Set</a>
+            <a href="nonl.knao.net&#x2F;mandelbrotset&#x2F;">Graphing the Mandelbrot Set</a>
         </h1>
         <div class="post__meta">
             <span class="post__time">2023-06-10</span>
@@ -191,7 +191,7 @@ We can graph this by representing each pixel with position or \(c\) value on the
 </span><span style="color:#81a1c1;">minifb </span><span>= </span><span style="color:#a3be8c;">&quot;0.24.0&quot;
 </span><span style="color:#81a1c1;">rayon </span><span>= </span><span style="color:#a3be8c;">&quot;1.7.0&quot;
 </span></code></pre>
-<p>First of all lets create a buffer for our image and set up minifb.</p>
+<p>First of all let's create a buffer for our image and set up minifb.</p>
 <pre data-lang="rust" style="background-color:#2e3440;color:#d8dee9;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#81a1c1;">use </span><span>minifb</span><span style="color:#81a1c1;">::</span><span>{Key</span><span style="color:#eceff4;">,</span><span> Window</span><span style="color:#eceff4;">,</span><span> WindowOptions}</span><span style="color:#eceff4;">;
 </span><span style="color:#81a1c1;">use </span><span>std</span><span style="color:#81a1c1;">::</span><span>error</span><span style="color:#81a1c1;">::</span><span>Error</span><span style="color:#eceff4;">;
 </span><span>
@@ -292,7 +292,7 @@ The entire mandelbrot set lies between \(-2 - 1.2i\) and \(0.5 + 1.2i\) so let's
 </span><span>}
 </span></code></pre>
 <p>This takes around 3 seconds with my 5950x and produces this image:
-<img src="/mandelbrotset/01.webp" alt="first mandlebrot image" /></p>
+<img src="nonl.knao.net/mandelbrotset/01.webp" alt="first mandlebrot image" /></p>
 <p>The resulting image is rather underwelming to say the least, a lot of the interesting detail isn't there!
 This is due to our binary diverges/doesn't diverge approach. Before we improve on that aspect that let's speed up the render.</p>
 <h3 id="multithreading">Multithreading</h3>
@@ -316,7 +316,7 @@ we can do this with rayon by replacing <code>for (i, pixel) in buffer.iter_mut()
 </span></code></pre>
 <p>The render now takes around 130ms on my 5950x (16 cores, 32 threads) which is about a ~23x speedup!</p>
 <h3 id="optimising">Optimising</h3>
-<p>We can also optimise our diverges function. We'll need to inline our iterate function so lets do that.</p>
+<p>We can also optimise our diverges function. We'll need to inline our iterate function so let's do that.</p>
 <pre data-lang="rust" style="background-color:#2e3440;color:#d8dee9;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#81a1c1;">fn </span><span style="color:#88c0d0;">diverges</span><span>(x0</span><span style="color:#eceff4;">: </span><span style="color:#81a1c1;">f64</span><span>, y0</span><span style="color:#eceff4;">: </span><span style="color:#81a1c1;">f64</span><span>) </span><span style="color:#eceff4;">-&gt; </span><span style="color:#81a1c1;">bool </span><span>{
 </span><span>    </span><span style="color:#81a1c1;">let </span><span>(</span><span style="color:#81a1c1;">mut</span><span> x</span><span style="color:#eceff4;">, </span><span style="color:#81a1c1;">mut</span><span> y) </span><span style="color:#81a1c1;">= </span><span>(</span><span style="color:#b48ead;">0.0</span><span style="color:#eceff4;">, </span><span style="color:#b48ead;">0.0</span><span>)</span><span style="color:#eceff4;">;
 </span><span>
@@ -530,7 +530,7 @@ $$</p>
 </span><span>    })</span><span style="color:#eceff4;">;
 </span></code></pre>
 <p>We now get this image:
-<img src="/mandelbrotset/02.webp" alt="final mandelbrot image" /></p>
+<img src="nonl.knao.net/mandelbrotset/02.webp" alt="final mandelbrot image" /></p>
 <h3 id="conclusion">Conclusion</h3>
 <p>For me this is where I stop. If you want to explore more around this topic such as more advanced algorithms or different colourings have a look at <a href="https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set">wikipedia</a> where I got most of this information from.</p>
 
@@ -544,7 +544,7 @@ $$</p>
             
                 <div class="post-tags">
                     
-                        <a href="/tags/graphics/">#graphics</a>
+                        <a href="nonl.knao.net/tags/graphics/">#graphics</a>
                     
                 </div>
             
@@ -567,7 +567,7 @@ $$</p>
         </div>
 
       
-          <script type="text/javascript" src="/even.js" ></script>
+          <script type="text/javascript" src="nonl.knao.net/even.js" ></script>
       
     </body>
 
