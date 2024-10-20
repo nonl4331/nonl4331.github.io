@@ -1,4 +1,4 @@
-base_url = "nonl.knao.net"
+base_url = "/"
 
 compile_sass = true
 
