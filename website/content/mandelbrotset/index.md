@@ -8,7 +8,7 @@ categories = ["programming"]
 tags = ["graphics"]
 +++
 
-The Mandelbrot set is defined as the set of complex numbers where if you take the function \\(f_c(z) = z^2 + c\\) and recursively evaulate it starting with \\(z = 0\\) and a given \\(c\\) where it does not diverge.
+The Mandelbrot set is defined as the set of complex numbers where if you take the function \\(f_c(z) = z^2 + c\\) and recursively evaluate it starting with \\(z = 0\\) and a given \\(c\\) where it does not diverge.
 We can graph this by representing each pixel with position or \\(c\\) value on the complex plane.
 <!-- more -->
 
@@ -43,7 +43,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 ```
 
 Let's write a function to evaluate \\(f_c(z) = z^2 + c\\).
-For the sake of clarity \\(z_a = x\\) and \\(z_b = y\\) where \\(z_a\\) is the real component and \\(z_b\\) the imaginary component of the complex number \\(z\\). Similarly \\(c_a = x_0\\) and \\(c_b = y_0\\). I've chosen this notation to be consistent with the wikipedia page on the mandelbrot set. 
+For the sake of clarity \\(z_a = x\\) and \\(z_b = y\\) where \\(z_a\\) is the real component and \\(z_b\\) the imaginary component of the complex number \\(z\\). Similarly \\(c_a = x_0\\) and \\(c_b = y_0\\). I've chosen this notation to be consistent with the Wikipedia page on the mandelbrot set. 
 
 Rust doesn't have an inbuilt complex number primitive so we could either create our own struct or operate directly on the real and imaginary components. I've opted to operate directly on the components since we aren't doing much arithmetic. The following is \\(f_c(z)\\) expressed in terms of the components of \\(z\\) and \\(c\\).
 
@@ -66,7 +66,7 @@ fn iterate(x: f64, y: f64, x0: f64, y0: f64) -> (f64, f64) {
 }
 ```
 
-Now let's create a function to tell if for given \\(c\\) value our recursive sequence diverges or not. One of the basic properties of our sequence
+Now let's create a function to tell if for a given \\(c\\) value our recursive sequence diverges or not. One of the basic properties of our sequence
 is that it will diverge if at any point \\(|f_c(z)| > 2\\) (or alternatively \\(|f_c(z)|^2 > 4\\)). This is because the entire mandelbrot set lies within a circle with radius 2. Using this property we can check for a given \\(c\\) value if the sequence will diverge within a given amount of iterations.
 
 
@@ -136,7 +136,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 This takes around 3 seconds with my 5950x and produces this image:
 ![first mandlebrot image](01.webp)
 
-The resulting image is rather underwelming to say the least, a lot of the interesting detail isn't there! 
+The resulting image is rather underwelming to say the least. A lot of the interesting detail isn't there! 
 This is due to our binary diverges/doesn't diverge approach. Before we improve on that aspect that let's speed up the render.
 
 ### Multithreading
@@ -225,9 +225,9 @@ This doesn't seem to make a noticable difference in my case but I'm going to sti
 
 #### Early Exit
 
-A big problem with our program is that if a point falls within the main cardiod or the period 2 bulb (the circle to the left) we know that it will not diverge but our program does not which means we will go through all (1024) iterations. Let's add a check to early exit if this is the case.
+A big problem with our program is that if a point falls within the main cardioid or the period 2 bulb (the circle to the left), we know that it will not diverge but our program does not, which means we will go through all (1024) iterations. Let's add a check to early exit if this is the case.
 
-We can check if the a point is in the main cardoid with the following:
+We can check if the a point is in the main cardioid with the following:
 $$
 q = \(x-\frac{1}{4})^2 + y^2
 $$
@@ -250,7 +250,7 @@ fn diverges(x0: f64, y0: f64) -> bool {
     let t2 = x + 1.0;
     let q = t * t + y_sq;
 
-    // check if point lies within the main cardoid or the period 2 bulb
+    // check if point lies within the main cardioid or the period 2 bulb
     if 4.0 * q * (q + t) <= y_sq || t2 * t2 + y_sq <= 0.0625 {
         return false;
     }
@@ -277,7 +277,7 @@ After implementing early exit the render time is around 17ms.
 
 #### Symmetry
 
-The Mandelbrot set is symmetric aross the x axis / real number line. We can take this to our advantage to only render the top half of the image then flip it.
+The Mandelbrot set is symmetric aross the x axis / real number line. We can use this to our advantage to only render the top half of the image then flip it.
 
 
 ```rust
@@ -305,13 +305,13 @@ fn main() -> Result<(), Box<dyn Error>> {
 }
 ```
 
-This brings the render time down to around 14ms. I suspect that there are unnesscary allocations but it works well enough.
+This brings the render time down to around 14ms. I suspect that there are unnecessary allocations but it works well enough.
 
 #### Cycles
 
 Another optimisation we can make is checking for cycles while we are iterating, if we detect a cycle it means that point will never diverge so we can exit early.
 
-To detect cycles we can store the initial value of z after the first iteration and check if any of the preceding z values match. We can update our value of z ever so often since cycles don't have to start from the first z value.
+To detect cycles we can store the initial value of z after the first iteration and check if any of the preceding z values match. We can update our value of z every so often since cycles don't have to start from the first z value.
 
 ```rust
 fn diverges(x0: f64, y0: f64) -> bool {
@@ -354,15 +354,15 @@ This brings down the render time to around 12ms.
 
 ### Better graphing
 
-Currently we have a binary diverges/doesn't diverge colouring which leaves out a lot of detail. Instead we can colour based on how many iterations it takes it cross our 2 threshold.
+Currently we have a binary diverges/doesn't diverge colouring which leaves out a lot of detail. Instead we can colour based on how many iterations it takes it cross our threshold of 2.
 
-First let's modify the diverges function to return the iteration it crossed our 2 threshold on or otherwise return the max iteration.
+First let's modify the diverges function to return the iteration it crossed our threshold of 2 on or otherwise return the max iteration.
 
 ```rust
 fn diverges(x0: f64, y0: f64) -> usize {
     ...
 
-    // early exit for period 2 bulb or cardoid
+    // early exit for period 2 bulb or cardioid
     if 4.0 * q * (q + t) <= y_sq || t2 * t2 + y_sq <= 0.0625 {
         return ITERATIONS;
     }
@@ -418,4 +418,4 @@ We now get this image:
 ![final mandelbrot image](02.webp)
 
 ### Conclusion
-For me this is where I stop. If you want to explore more around this topic such as more advanced algorithms or different colourings have a look at [wikipedia](https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set) where I got most of this information from. 
+For me this is where I stop. If you want to explore more around this topic such as more advanced algorithms or different colourings have a look at [Wikipedia](https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set) where I got most of this information from. 
