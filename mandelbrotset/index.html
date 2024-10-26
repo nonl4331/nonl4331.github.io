@@ -183,7 +183,7 @@
     </header>
 
     <div class="post-content">
-      <p>The Mandelbrot set is defined as the set of complex numbers where if you take the function \(f_c(z) = z^2 + c\) and recursively evaulate it starting with \(z = 0\) and a given \(c\) where it does not diverge.
+      <p>The Mandelbrot set is defined as the set of complex numbers where if you take the function \(f_c(z) = z^2 + c\) and recursively evaluate it starting with \(z = 0\) and a given \(c\) where it does not diverge.
 We can graph this by representing each pixel with position or \(c\) value on the complex plane.</p>
 <span id="continue-reading"></span>
 <p>I will be using Rust with minifb for a framebuffer and rayon for multithreading.</p>
@@ -213,7 +213,7 @@ We can graph this by representing each pixel with position or \(c\) value on the
 </span><span>}
 </span></code></pre>
 <p>Let's write a function to evaluate \(f_c(z) = z^2 + c\).
-For the sake of clarity \(z_a = x\) and \(z_b = y\) where \(z_a\) is the real component and \(z_b\) the imaginary component of the complex number \(z\). Similarly \(c_a = x_0\) and \(c_b = y_0\). I've chosen this notation to be consistent with the wikipedia page on the mandelbrot set.</p>
+For the sake of clarity \(z_a = x\) and \(z_b = y\) where \(z_a\) is the real component and \(z_b\) the imaginary component of the complex number \(z\). Similarly \(c_a = x_0\) and \(c_b = y_0\). I've chosen this notation to be consistent with the Wikipedia page on the mandelbrot set.</p>
 <p>Rust doesn't have an inbuilt complex number primitive so we could either create our own struct or operate directly on the real and imaginary components. I've opted to operate directly on the components since we aren't doing much arithmetic. The following is \(f_c(z)\) expressed in terms of the components of \(z\) and \(c\).</p>
 <p>$$
 f_c(z) = z^2 + c
@@ -231,7 +231,7 @@ $$</p>
 </span><span>    (x </span><span style="color:#81a1c1;">*</span><span> x </span><span style="color:#81a1c1;">-</span><span> y </span><span style="color:#81a1c1;">*</span><span> y </span><span style="color:#81a1c1;">+</span><span> x0</span><span style="color:#eceff4;">, </span><span style="color:#b48ead;">2.0 </span><span style="color:#81a1c1;">*</span><span> x </span><span style="color:#81a1c1;">*</span><span> y </span><span style="color:#81a1c1;">+</span><span> y0)
 </span><span>}
 </span></code></pre>
-<p>Now let's create a function to tell if for given \(c\) value our recursive sequence diverges or not. One of the basic properties of our sequence
+<p>Now let's create a function to tell if for a given \(c\) value our recursive sequence diverges or not. One of the basic properties of our sequence
 is that it will diverge if at any point \(|f_c(z)| &gt; 2\) (or alternatively \(|f_c(z)|^2 &gt; 4\)). This is because the entire mandelbrot set lies within a circle with radius 2. Using this property we can check for a given \(c\) value if the sequence will diverge within a given amount of iterations.</p>
 <pre data-lang="rust" style="background-color:#2e3440;color:#d8dee9;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#81a1c1;">const </span><span>ITERATIONS</span><span style="color:#eceff4;">: </span><span style="color:#81a1c1;">usize = </span><span style="color:#b48ead;">1024</span><span style="color:#eceff4;">;
 </span><span>
@@ -293,7 +293,7 @@ The entire mandelbrot set lies between \(-2 - 1.2i\) and \(0.5 + 1.2i\) so let's
 </span></code></pre>
 <p>This takes around 3 seconds with my 5950x and produces this image:
 <img src="https://nonl.knao.net/mandelbrotset/01.webp" alt="first mandlebrot image" /></p>
-<p>The resulting image is rather underwelming to say the least, a lot of the interesting detail isn't there!
+<p>The resulting image is rather underwelming to say the least. A lot of the interesting detail isn't there!
 This is due to our binary diverges/doesn't diverge approach. Before we improve on that aspect that let's speed up the render.</p>
 <h3 id="multithreading">Multithreading</h3>
 <p>Perhaps the easiest speedup would be to convert our single-threaded render loop to a multi-threaded,
@@ -367,8 +367,8 @@ we can do this with rayon by replacing <code>for (i, pixel) in buffer.iter_mut()
 </span></code></pre>
 <p>This doesn't seem to make a noticable difference in my case but I'm going to stick with it since it makes the code a bit neater.</p>
 <h4 id="early-exit">Early Exit</h4>
-<p>A big problem with our program is that if a point falls within the main cardiod or the period 2 bulb (the circle to the left) we know that it will not diverge but our program does not which means we will go through all (1024) iterations. Let's add a check to early exit if this is the case.</p>
-<p>We can check if the a point is in the main cardoid with the following:
+<p>A big problem with our program is that if a point falls within the main cardioid or the period 2 bulb (the circle to the left), we know that it will not diverge but our program does not, which means we will go through all (1024) iterations. Let's add a check to early exit if this is the case.</p>
+<p>We can check if the a point is in the main cardioid with the following:
 $$
 q = (x-\frac{1}{4})^2 + y^2
 $$
@@ -389,7 +389,7 @@ $$</p>
 </span><span>    </span><span style="color:#81a1c1;">let</span><span> t2 </span><span style="color:#81a1c1;">=</span><span> x </span><span style="color:#81a1c1;">+ </span><span style="color:#b48ead;">1.0</span><span style="color:#eceff4;">;
 </span><span>    </span><span style="color:#81a1c1;">let</span><span> q </span><span style="color:#81a1c1;">=</span><span> t </span><span style="color:#81a1c1;">*</span><span> t </span><span style="color:#81a1c1;">+</span><span> y_sq</span><span style="color:#eceff4;">;
 </span><span>
-</span><span>    </span><span style="color:#616e88;">// check if point lies within the main cardoid or the period 2 bulb
+</span><span>    </span><span style="color:#616e88;">// check if point lies within the main cardioid or the period 2 bulb
 </span><span>    </span><span style="color:#81a1c1;">if </span><span style="color:#b48ead;">4.0 </span><span style="color:#81a1c1;">*</span><span> q </span><span style="color:#81a1c1;">* </span><span>(q </span><span style="color:#81a1c1;">+</span><span> t) </span><span style="color:#81a1c1;">&lt;=</span><span> y_sq </span><span style="color:#81a1c1;">||</span><span> t2 </span><span style="color:#81a1c1;">*</span><span> t2 </span><span style="color:#81a1c1;">+</span><span> y_sq </span><span style="color:#81a1c1;">&lt;= </span><span style="color:#b48ead;">0.0625 </span><span>{
 </span><span>        </span><span style="color:#81a1c1;">return false</span><span style="color:#eceff4;">;
 </span><span>    }
@@ -413,7 +413,7 @@ $$</p>
 <p>Note that I've also calculated the initial x and y squared outside of loop. I've found that doing this before applying the early exit optimisation reduces performance by around ~20ms to ~140ms for some reason. It doesn't seem to make a noticable difference after implementing the early exit.</p>
 <p>After implementing early exit the render time is around 17ms.</p>
 <h4 id="symmetry">Symmetry</h4>
-<p>The Mandelbrot set is symmetric aross the x axis / real number line. We can take this to our advantage to only render the top half of the image then flip it.</p>
+<p>The Mandelbrot set is symmetric aross the x axis / real number line. We can use this to our advantage to only render the top half of the image then flip it.</p>
 <pre data-lang="rust" style="background-color:#2e3440;color:#d8dee9;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#81a1c1;">const </span><span>HALF_HEIGHT</span><span style="color:#eceff4;">: </span><span style="color:#81a1c1;">usize = </span><span>HEIGHT </span><span style="color:#81a1c1;">/ </span><span style="color:#b48ead;">2</span><span style="color:#eceff4;">;
 </span><span>
 </span><span style="color:#81a1c1;">fn </span><span style="color:#88c0d0;">main</span><span>() </span><span style="color:#eceff4;">-&gt; </span><span style="color:#8fbcbb;">Result</span><span>&lt;(), </span><span style="color:#8fbcbb;">Box</span><span>&lt;dyn Error&gt;&gt; {
@@ -437,10 +437,10 @@ $$</p>
 </span><span>    </span><span style="color:#81a1c1;">...
 </span><span>}
 </span></code></pre>
-<p>This brings the render time down to around 14ms. I suspect that there are unnesscary allocations but it works well enough.</p>
+<p>This brings the render time down to around 14ms. I suspect that there are unnecessary allocations but it works well enough.</p>
 <h4 id="cycles">Cycles</h4>
 <p>Another optimisation we can make is checking for cycles while we are iterating, if we detect a cycle it means that point will never diverge so we can exit early.</p>
-<p>To detect cycles we can store the initial value of z after the first iteration and check if any of the preceding z values match. We can update our value of z ever so often since cycles don't have to start from the first z value.</p>
+<p>To detect cycles we can store the initial value of z after the first iteration and check if any of the preceding z values match. We can update our value of z every so often since cycles don't have to start from the first z value.</p>
 <pre data-lang="rust" style="background-color:#2e3440;color:#d8dee9;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#81a1c1;">fn </span><span style="color:#88c0d0;">diverges</span><span>(x0</span><span style="color:#eceff4;">: </span><span style="color:#81a1c1;">f64</span><span>, y0</span><span style="color:#eceff4;">: </span><span style="color:#81a1c1;">f64</span><span>) </span><span style="color:#eceff4;">-&gt; </span><span style="color:#81a1c1;">bool </span><span>{
 </span><span>    </span><span style="color:#81a1c1;">...
 </span><span>
@@ -478,12 +478,12 @@ $$</p>
 </span></code></pre>
 <p>This brings down the render time to around 12ms.</p>
 <h3 id="better-graphing">Better graphing</h3>
-<p>Currently we have a binary diverges/doesn't diverge colouring which leaves out a lot of detail. Instead we can colour based on how many iterations it takes it cross our 2 threshold.</p>
-<p>First let's modify the diverges function to return the iteration it crossed our 2 threshold on or otherwise return the max iteration.</p>
+<p>Currently we have a binary diverges/doesn't diverge colouring which leaves out a lot of detail. Instead we can colour based on how many iterations it takes it cross our threshold of 2.</p>
+<p>First let's modify the diverges function to return the iteration it crossed our threshold of 2 on or otherwise return the max iteration.</p>
 <pre data-lang="rust" style="background-color:#2e3440;color:#d8dee9;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#81a1c1;">fn </span><span style="color:#88c0d0;">diverges</span><span>(x0</span><span style="color:#eceff4;">: </span><span style="color:#81a1c1;">f64</span><span>, y0</span><span style="color:#eceff4;">: </span><span style="color:#81a1c1;">f64</span><span>) </span><span style="color:#eceff4;">-&gt; </span><span style="color:#81a1c1;">usize </span><span>{
 </span><span>    </span><span style="color:#81a1c1;">...
 </span><span>
-</span><span>    </span><span style="color:#616e88;">// early exit for period 2 bulb or cardoid
+</span><span>    </span><span style="color:#616e88;">// early exit for period 2 bulb or cardioid
 </span><span>    </span><span style="color:#81a1c1;">if </span><span style="color:#b48ead;">4.0 </span><span style="color:#81a1c1;">*</span><span> q </span><span style="color:#81a1c1;">* </span><span>(q </span><span style="color:#81a1c1;">+</span><span> t) </span><span style="color:#81a1c1;">&lt;=</span><span> y_sq </span><span style="color:#81a1c1;">||</span><span> t2 </span><span style="color:#81a1c1;">*</span><span> t2 </span><span style="color:#81a1c1;">+</span><span> y_sq </span><span style="color:#81a1c1;">&lt;= </span><span style="color:#b48ead;">0.0625 </span><span>{
 </span><span>        </span><span style="color:#81a1c1;">return </span><span>ITERATIONS</span><span style="color:#eceff4;">;
 </span><span>    }
@@ -532,7 +532,7 @@ $$</p>
 <p>We now get this image:
 <img src="https://nonl.knao.net/mandelbrotset/02.webp" alt="final mandelbrot image" /></p>
 <h3 id="conclusion">Conclusion</h3>
-<p>For me this is where I stop. If you want to explore more around this topic such as more advanced algorithms or different colourings have a look at <a href="https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set">wikipedia</a> where I got most of this information from.</p>
+<p>For me this is where I stop. If you want to explore more around this topic such as more advanced algorithms or different colourings have a look at <a href="https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set">Wikipedia</a> where I got most of this information from.</p>
 
     </div>
 

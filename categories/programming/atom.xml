@@ -22,7 +22,7 @@
         <link rel="alternate" type="text/html" href="https://nonl.knao.net/mandelbrotset/"/>
         <id>https://nonl.knao.net/mandelbrotset/</id>
         
-        <summary type="html">&lt;p&gt;The Mandelbrot set is defined as the set of complex numbers where if you take the function \(f_c(z) = z^2 + c\) and recursively evaulate it starting with \(z = 0\) and a given \(c\) where it does not diverge.
+        <summary type="html">&lt;p&gt;The Mandelbrot set is defined as the set of complex numbers where if you take the function \(f_c(z) = z^2 + c\) and recursively evaluate it starting with \(z = 0\) and a given \(c\) where it does not diverge.
 We can graph this by representing each pixel with position or \(c\) value on the complex plane.&lt;&#x2F;p&gt;
 </summary>
         
