@@ -1,0 +1,36 @@
+.project-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+	width: 70%;
+	margin-bottom: 2rem;
+}
+
+@media (max-width: 800px) {
+	.project-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.large {
+	grid-column-start: 1;
+	grid-column-end: -1;
+	grid-row-start: 1;
+	grid-row-end: 3;
+}
+
+.grid-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.project {
+	background-color: grey;
+	border-radius: 5px;
+	aspect-ratio: 1.8;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-size: cover;
+}

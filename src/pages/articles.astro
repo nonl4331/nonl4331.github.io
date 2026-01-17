@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+
+import "../styles/articles.css"
+import Page from "../components/Page.astro"
+
+const posts = (await getCollection("posts")).filter(post => !post.data.draft);
+---
+<Page>
+	<ul class="articles flow">
+  {posts.map(post => (
+  <li>
+      <a href={`/posts/${post.slug}/`}>
+		  <h3>{post.data.title}</h3> {post.data.description}
+      </a>
+    </li>
+  ))}
+</ul>
+</Page>

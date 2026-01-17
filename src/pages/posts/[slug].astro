@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+
+import Page from "../../components/Page.astro"
+import "../../styles/global.css"
+import "../../styles/article.css"
+
+export async function getStaticPaths() {
+const posts = await getCollection("posts");
+	return posts.map(post => ({
+		params: { slug: post.slug },
+		props: { post },
+	}));
+};
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+<Page disableBackground=true>
+<article class="flow">
+	<h1>{post.data.title}</h1>
+	<Content />
+</article>
+</Page>

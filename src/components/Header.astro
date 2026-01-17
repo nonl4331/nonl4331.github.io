@@ -1,0 +1,146 @@
+---
+/* inspired by https://piccalil.li/blog/build-a-fully-responsive-progressively-enhanced-burger-menu/ */
+import "../styles/header.css"
+---
+<header class="site-head" role="banner">
+  <a href="#main-content" class="skip-link">Skip to content</a>
+  <div class="wrapper">
+	  <div class="site-head__inner">
+		  <a href="/" style="z-index: 2;"><h1>Nicholas Leon</h1></a>
+      <burger-menu max-width="600">
+        <nav class="navigation" aria-label="primary">
+          <ul role="list">
+            <li>
+              <a href="/">Home</a>
+            </li>
+            <li>
+				<a href="/projects">Projects</a>
+            </li>
+            <li>
+				<a href="/articles">Articles</a>
+            </li>
+            <li>
+				<a href="/about">About</a>
+            </li>
+          </ul>
+        </nav>
+      </burger-menu>
+    </div>
+  </div>
+</header>
+<script>
+class BurgerMenu extends HTMLElement {
+	constructor() {
+		super();
+
+		const self = this;
+
+		this.state = new Proxy({ is_open: true, enabled: false },
+			{
+				set(state, key, value) {
+					const changed = value !== state[key];
+					state[key] = value;
+					if (changed) {
+						self.processUpdate();
+					}
+					return state;
+				}
+			}
+		);
+	}
+	
+	get maxWidth() {
+		return parseInt(this.getAttribute("max-width") || 99999, 10);
+	}
+	connectedCallback() {
+		this.startXML = this.innerHTML;
+		this.render();
+
+		const observer = new ResizeObserver(observedItem => {
+			const {contentRect} = observedItem[0];
+			this.state.enabled = contentRect.width <= this.maxWidth;
+		});
+
+		observer.observe(this.parentNode);
+	}
+
+	render() {
+		this.innerHTML = `
+		<div class="burger-menu" data-element="burger-root">
+			<button class="burger-menu__trigger" data-element="burger-menu-trigger" type="button" aria-label="Open menu">
+				<span class="burger-menu__bar" aria-hidden="true"></span>
+			</button>
+			<div class="burger-menu__panel" data-element="burger-menu-panel">
+				${this.startXML}
+			</div>
+		</div>
+		`;
+
+		this.postRender();
+	}
+
+	postRender() {
+		this.trigger = this.querySelector('[data-element="burger-menu-trigger"]');
+		this.panel = this.querySelector('[data-element="burger-menu-panel"]');
+		this.root = this.querySelector('[data-element="burger-root"]');
+		this.focusableElements = this.querySelectorAll(
+      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled]), details:not([disabled]), summary:not(:disabled)'
+    );
+
+		if (this.trigger && this.panel) {
+			this.toggle();
+
+
+			this.trigger.addEventListener("click", event => {
+				event.preventDefault();
+
+				this.toggle();
+			});
+
+			document.addEventListener("focusing", () => {
+				if (!this.contains()) {
+					this.toggle(false);
+				}
+			});
+
+			return;
+		}
+
+		this.innerHTML = this.startXML;
+	}
+
+	processUpdate() {
+		this.root.setAttribute("is_open", this.state.is_open);
+		this.root.setAttribute("enabled", this.state.enabled);
+
+		if (!this.state.enabled) {
+			this.focusableElements.forEach(e => e.removeAttribute("tabindex"));
+			return;
+		}
+
+		if (this.state.is_open === true) {
+			this.focusableElements.forEach(e => e.removeAttribute("tabindex"));
+		} else if (this.state.is_open === false) {
+			[...this.focusableElements].filter(e => e.getAttribute("data-element") !== "burger-menu-trigger").forEach(e => e.setAttribute("tabindex", "-1"));
+		}
+
+		if (this.state.is_open) {
+			this.trigger.setAttribute("aria-expanded", "true");
+			this.trigger.setAttribute("aria-label", "Close Menu");
+		} else {
+			this.trigger.setAttribute("aria-expanded", "false");
+			this.trigger.setAttribute("aria-label", "Open menu");
+		}
+	}
+
+	toggle(force_open) {
+		if (force_open != undefined) {
+			this.state.is_open = force_open;
+		} else {
+			this.state.is_open = !this.state.is_open;
+		}
+	}
+}
+
+customElements.define("burger-menu", BurgerMenu);
+</script>

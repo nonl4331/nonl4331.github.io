@@ -1,0 +1,29 @@
+/* Spacing and positioning of footer list items */
+.nav ul {
+	display: flex;
+	justify-content: center;
+	list-style: none;
+	padding: 0;
+	margin: 1rem;
+	gap: var(--spacing-header-items);
+}
+
+.footer {
+	display: flex;
+	flex-direction: column-reverse;
+	align-content: bottom;
+	align-items: bottom;
+	justify-content: bottom;
+	justify-items: bottom;
+	height: 100%;
+}
+
+
+.footer div {
+	display: flex;
+	justify-content: center;
+	list-style: none;
+	padding: 0;
+	margin: 1rem;
+	gap: var(--spacing-header-items);
+}
