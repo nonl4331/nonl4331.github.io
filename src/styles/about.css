@@ -1,6 +1,13 @@
 .about-wrapper {
-	margin-top: 0.5rem;
+	padding-top: 2rem;
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	flex-flow: column wrap;
+	gap: 2rem;
+	align-items: left;
+	font-size: larger;
+	max-width: 65rem;
+  	margin-left: auto;
+ 	margin-right: auto;
+  	padding-left: 1.25rem;
+  	padding-right: 1.25rem;
 }
